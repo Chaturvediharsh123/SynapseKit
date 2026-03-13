@@ -1,0 +1,88 @@
+# SynapseKit Roadmap
+
+## v0.5.0 — Production Features
+
+- [x] Text Splitters (character, recursive, token-aware, semantic)
+- [x] Function calling for Gemini and Mistral
+- [x] LLM response caching (LRU, SHA-256 keys)
+- [x] LLM retries with exponential backoff
+- [x] Graph cycle support (`allow_cycles=True`)
+- [x] Configurable `max_steps` for graph execution
+- [x] Graph checkpointing (InMemory, SQLite)
+- [x] `RAGConfig.splitter` — pluggable text splitters in RAG pipeline
+
+## v0.5.1 — Polish
+
+- [x] `@tool` decorator — create agent tools from plain functions with auto-generated JSON Schema
+- [x] Metadata filtering — `VectorStore.search(metadata_filter={"key": "value"})`
+- [x] Vector store lazy exports — all backends importable from `synapsekit`
+- [x] File existence checks — loaders raise `FileNotFoundError` before attempting to read
+- [x] Parameter validation — agents and memory reject invalid config
+
+## v0.5.2 — Quality of Life
+
+- [x] `__repr__` methods on `StateGraph`, `CompiledGraph`, `RAGPipeline`, `ReActAgent`, `FunctionCallingAgent`
+- [x] Empty document handling — `RAGPipeline.add()` silently skips empty text
+- [x] Retry for `call_with_tools()` — `LLMConfig(max_retries=N)` applies to function calling
+- [x] Cache hit/miss statistics — `BaseLLM.cache_stats` property
+- [x] MMR retrieval — `search_mmr()` and `retrieve_mmr()` for diversity-aware retrieval
+- [x] Rate limiting — `LLMConfig(requests_per_minute=N)` with token-bucket algorithm
+- [x] Structured output with retry — `generate_structured(llm, prompt, schema=Model)` parses to Pydantic
+
+## v0.5.3 — Provider Expansion
+
+- [x] Azure OpenAI — `AzureOpenAILLM` for enterprise Azure deployments
+- [x] Groq — `GroqLLM` for ultra-fast inference (Llama, Mixtral, Gemma)
+- [x] DeepSeek — `DeepSeekLLM` with function calling support
+- [x] SQLite LLM cache — persistent cache via `LLMConfig(cache_backend="sqlite")`
+- [x] RAG Fusion — `RAGFusionRetriever` with multi-query + Reciprocal Rank Fusion
+- [x] Excel loader — `ExcelLoader` for `.xlsx` files
+- [x] PowerPoint loader — `PowerPointLoader` for `.pptx` files
+- [x] 10 LLM providers, 10 document loaders, 415 tests passing
+
+## v0.6.0 — Tools, Providers & Advanced Retrieval
+
+- [x] 6 new built-in tools: `HTTPRequestTool`, `FileWriteTool`, `FileListTool`, `DateTimeTool`, `RegexTool`, `JSONQueryTool`
+- [x] 3 new LLM providers: `OpenRouterLLM`, `TogetherLLM`, `FireworksLLM`
+- [x] `ContextualRetriever` — Anthropic-style contextual retrieval
+- [x] `SentenceWindowRetriever` — sentence-level embedding with window expansion
+- [x] 13 LLM providers, 11 built-in tools, 12 document loaders, 452 tests passing
+
+## v0.6.1 — Graph Power-ups & Advanced Retrieval
+
+- [x] `GraphInterrupt` — human-in-the-loop pause/resume for graph workflows
+- [x] `subgraph_node()` — nest compiled graphs as nodes in parent graphs
+- [x] `llm_node()` + `stream_tokens()` — token-level streaming from graph nodes
+- [x] `SelfQueryRetriever` — LLM-generated metadata filters
+- [x] `ParentDocumentRetriever` — small-chunk search, full-doc return
+- [x] `CrossEncoderReranker` — cross-encoder reranking for precision
+- [x] `HybridMemory` — sliding window + LLM summary
+- [x] 13 providers, 11 tools, 12 loaders, 6 retrieval strategies, 482 tests passing
+
+## v0.6.2 — Retrieval Strategies, Memory & Tools (current)
+
+- [x] `CRAGRetriever` — Corrective RAG: grade docs, rewrite query, retry
+- [x] `QueryDecompositionRetriever` — break complex queries into sub-queries
+- [x] `ContextualCompressionRetriever` — compress docs to relevant excerpts
+- [x] `EnsembleRetriever` — fuse results from multiple retrievers via weighted RRF
+- [x] `SQLiteConversationMemory` — persistent chat history in SQLite
+- [x] `SummaryBufferMemory` — token-budget-aware progressive summarization
+- [x] `HumanInputTool` — pause agent for user input
+- [x] `WikipediaTool` — Wikipedia article search and summaries
+- [x] 13 providers, 13 tools, 12 loaders, 10 retrieval strategies, 4 memory backends, 512 tests passing
+
+## v0.7.0 (planned)
+
+- [ ] Multi-modal support (image inputs for vision models)
+- [ ] `Evaluator` — faithfulness, relevancy, groundedness
+- [ ] RAGAS-style metrics
+- [ ] Advanced retrieval: HyDE, FLARE, Step-Back Prompting
+- [ ] Conversation branching and tree-of-thought
+
+## v0.8.0 (planned)
+
+- [ ] Local observability UI (LangSmith-style, open source)
+- [ ] Streaming UI helpers — SSE + WebSocket for FastAPI
+- [ ] `synapsekit serve` — deploy any app as FastAPI in one command
+- [ ] Prompt hub — versioned prompt registry
+- [ ] Plugin system for community extensions
