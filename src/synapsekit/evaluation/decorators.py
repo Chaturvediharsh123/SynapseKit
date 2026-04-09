@@ -50,6 +50,7 @@ def eval_case(
         fn._eval_case_meta = meta  # type: ignore[attr-defined]
 
         if inspect.iscoroutinefunction(fn):
+
             @functools.wraps(fn)
             async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
                 return await fn(*args, **kwargs)

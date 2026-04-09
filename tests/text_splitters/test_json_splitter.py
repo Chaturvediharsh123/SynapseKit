@@ -55,7 +55,7 @@ class TestInvalidJSON:
     def test_trailing_comma_raises(self):
         splitter = JSONSplitter()
         with pytest.raises(ValueError, match="Input is not valid JSON"):
-            splitter.split('[1, 2, 3,]')
+            splitter.split("[1, 2, 3,]")
 
 
 # ── Constructor validation ────────────────────────────────────────
@@ -301,10 +301,12 @@ class TestTopLevelExport:
 
     def test_import_from_text_splitters(self):
         from synapsekit.text_splitters import JSONSplitter as ImportedSplitter
+
         assert ImportedSplitter is JSONSplitter
 
     def test_import_from_synapsekit(self):
         from synapsekit import JSONSplitter as ImportedSplitter
+
         assert ImportedSplitter is JSONSplitter
 
 

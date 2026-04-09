@@ -29,6 +29,7 @@ import pytest
 # Decorator: iscoroutinefunction preservation
 # ──────────────────────────────────────────────────────────────────────────────
 
+
 class TestEvalCaseDecoratorAsync:
     """Verify the decorator preserves coroutine identity for async functions."""
 
@@ -111,6 +112,7 @@ class TestEvalCaseDecoratorAsync:
 # CLI runner: async eval cases run end-to-end through run_test()
 # ──────────────────────────────────────────────────────────────────────────────
 
+
 class TestRunTestAsync:
     """End-to-end tests of cli/test.py with async eval case files.
 
@@ -134,13 +136,15 @@ class TestRunTestAsync:
         """An async @eval_case that returns score >= threshold must pass."""
         from synapsekit.cli.test import run_test
 
-        (tmp_path / "eval_async.py").write_text(textwrap.dedent("""
+        (tmp_path / "eval_async.py").write_text(
+            textwrap.dedent("""
             from synapsekit.evaluation.decorators import eval_case
 
             @eval_case(min_score=0.80)
             async def eval_passing_async():
                 return {"score": 0.90, "cost_usd": 0.001}
-        """))
+        """)
+        )
 
         run_test(self._make_args(str(tmp_path)))
         data = json.loads(capsys.readouterr().out)
@@ -152,19 +156,23 @@ class TestRunTestAsync:
         """An async @eval_case that returns score < threshold must exit 1."""
         from synapsekit.cli.test import run_test
 
-        (tmp_path / "eval_async_fail.py").write_text(textwrap.dedent("""
+        (tmp_path / "eval_async_fail.py").write_text(
+            textwrap.dedent("""
             from synapsekit.evaluation.decorators import eval_case
 
             @eval_case(min_score=0.90)
             async def eval_failing_async():
                 return {"score": 0.50}
-        """))
+        """)
+        )
 
         with pytest.raises(SystemExit) as exc_info:
             run_test(self._make_args(str(tmp_path)))
         assert exc_info.value.code == 1
 
-    def test_async_eval_case_result_is_not_coroutine(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_async_eval_case_result_is_not_coroutine(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ):
         """The score in the output must be a float, never a coroutine object.
 
         This is the exact regression test for the v1.5.1 bug:
@@ -172,13 +180,15 @@ class TestRunTestAsync:
         """
         from synapsekit.cli.test import run_test
 
-        (tmp_path / "eval_score_type.py").write_text(textwrap.dedent("""
+        (tmp_path / "eval_score_type.py").write_text(
+            textwrap.dedent("""
             from synapsekit.evaluation.decorators import eval_case
 
             @eval_case(min_score=0.50)
             async def eval_score_is_float():
                 return {"score": 0.75}
-        """))
+        """)
+        )
 
         run_test(self._make_args(str(tmp_path)))
         data = json.loads(capsys.readouterr().out)
@@ -188,11 +198,14 @@ class TestRunTestAsync:
             "This likely means the async function was not awaited."
         )
 
-    def test_mixed_sync_and_async_eval_cases(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_mixed_sync_and_async_eval_cases(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ):
         """A file with both sync and async eval cases must run both correctly."""
         from synapsekit.cli.test import run_test
 
-        (tmp_path / "eval_mixed.py").write_text(textwrap.dedent("""
+        (tmp_path / "eval_mixed.py").write_text(
+            textwrap.dedent("""
             from synapsekit.evaluation.decorators import eval_case
 
             @eval_case(min_score=0.70)
@@ -202,7 +215,8 @@ class TestRunTestAsync:
             @eval_case(min_score=0.70)
             async def eval_async_case():
                 return {"score": 0.85, "cost_usd": 0.002}
-        """))
+        """)
+        )
 
         run_test(self._make_args(str(tmp_path)))
         data = json.loads(capsys.readouterr().out)
@@ -212,17 +226,21 @@ class TestRunTestAsync:
         assert "eval_sync_case" in names
         assert "eval_async_case" in names
 
-    def test_async_eval_case_cost_and_latency_tracked(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_async_eval_case_cost_and_latency_tracked(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ):
         """Cost and latency from async eval cases must appear in output."""
         from synapsekit.cli.test import run_test
 
-        (tmp_path / "eval_meta.py").write_text(textwrap.dedent("""
+        (tmp_path / "eval_meta.py").write_text(
+            textwrap.dedent("""
             from synapsekit.evaluation.decorators import eval_case
 
             @eval_case(min_score=0.50, max_cost_usd=0.05, max_latency_ms=5000)
             async def eval_with_cost():
                 return {"score": 0.80, "cost_usd": 0.005, "latency_ms": 200.0}
-        """))
+        """)
+        )
 
         run_test(self._make_args(str(tmp_path)))
         data = json.loads(capsys.readouterr().out)
@@ -230,17 +248,21 @@ class TestRunTestAsync:
         assert data[0]["cost_usd"] == pytest.approx(0.005)
         assert data[0]["latency_ms"] == pytest.approx(200.0)
 
-    def test_async_eval_case_exception_recorded(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_async_eval_case_exception_recorded(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ):
         """An async eval case that raises must be recorded as failed with error."""
         from synapsekit.cli.test import run_test
 
-        (tmp_path / "eval_exc.py").write_text(textwrap.dedent("""
+        (tmp_path / "eval_exc.py").write_text(
+            textwrap.dedent("""
             from synapsekit.evaluation.decorators import eval_case
 
             @eval_case(min_score=0.50)
             async def eval_that_raises():
                 raise RuntimeError("LLM API error")
-        """))
+        """)
+        )
 
         with pytest.raises(SystemExit):
             run_test(self._make_args(str(tmp_path)))
