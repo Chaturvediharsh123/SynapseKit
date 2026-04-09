@@ -77,7 +77,11 @@ class RAGPipeline:
         k = top_k or self.config.retrieval_top_k
         chunks = await self.config.retriever.retrieve(query, top_k=k)
 
-        context = "\n\n".join(chunks) if chunks else "No context available."
+        if chunks:
+            tagged = [f"<document>\n{chunk}\n</document>" for chunk in chunks]
+            context = "\n\n".join(tagged)
+        else:
+            context = "No context available."
         history = self.config.memory.format_context()
 
         messages: list[dict] = [
