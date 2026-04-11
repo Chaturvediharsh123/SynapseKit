@@ -11,6 +11,33 @@ SynapseKit uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.5.3] — 2026-04-11
+
+### Added
+
+- **`TeamsLoader`** — load messages from Microsoft Teams channels via the Microsoft Graph API; automatic pagination via `@odata.nextLink`; HTML-to-plain-text conversion (strips tags, decodes entities); exponential backoff retry for 429 and 5xx responses; graceful handling of missing author/timestamp/body fields; sync `load()` and async `aload()`; `pip install synapsekit[teams]`; closes #51
+- **`CodeInterpreterTool`** — execute Python code in an isolated subprocess and capture stdout, stderr, generated files, matplotlib plot artifacts, and pandas dataframe reprs; configurable timeout (default 5s) and memory limit (default 256 MB, enforced via `RLIMIT_AS` on Linux); workspace isolation via `tempfile.TemporaryDirectory`; structured JSON output; closes #216
+
+### Fixed
+
+- **`ShellTool` Windows compatibility** — use `asyncio.create_subprocess_shell()` on Windows so shell builtins (`echo`, `dir`, etc.) work correctly; keep `create_subprocess_exec()` on Unix; closes #502
+- **pytest Windows warnings** — suppress harmless `PytestUnraisableExceptionWarning` from asyncio proactor transport GC cleanup on Windows
+
+---
+
+## [1.5.2] — 2026-04-10
+
+### Added
+
+- **`JSONSplitter`** — JSON-aware chunking; splits arrays by element and objects by top-level key; item-level overlap preserves valid JSON structure (character-level overlap would produce invalid JSON fragments); closes #501
+- **EvalCI GitHub Action** — live on [GitHub Marketplace](https://github.com/marketplace/actions/evalci-by-synapsekit); LLM quality gates on every PR, zero infrastructure, 2-minute setup
+
+### Fixed
+
+- **Async `@eval_case` not awaited** — decorated async functions now correctly preserve `inspect.iscoroutinefunction()` identity; the CLI runner was skipping `asyncio.run()` for async cases, passing a raw coroutine to `float()` and raising `TypeError`; regression tests added
+
+---
+
 ## [1.5.1] — 2026-04-09
 
 ### Added
