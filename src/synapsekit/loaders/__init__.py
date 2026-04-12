@@ -1,5 +1,6 @@
 from typing import Any
 
+from .azure_blob import AzureBlobLoader
 from .base import Document
 from .markdown import MarkdownLoader
 from .text import StringLoader, TextLoader
@@ -7,6 +8,7 @@ from .text import StringLoader, TextLoader
 __all__ = [
     "ArXivLoader",
     "AudioLoader",
+    "AzureBlobLoader",
     "CSVLoader",
     "ConfluenceLoader",
     "DirectoryLoader",
@@ -41,6 +43,7 @@ __all__ = [
 
 _LOADERS = {
     "ArXivLoader": ".arxiv",
+    "AzureBlobLoader": ".azure_blob",
     "PDFLoader": ".pdf",
     "HTMLLoader": ".html",
     "CSVLoader": ".csv",
