@@ -19,7 +19,12 @@
 
 ---
 
-SynapseKit is an async-native Python framework for building LLM applications — RAG pipelines, tool-using agents, and graph workflows. Streaming-first, transparent API, 2 hard deps. 30 providers · 46 tools · 33 loaders · 9 vector stores. Every abstraction is composable and replaceable: plain Python you can read, debug, and extend. No magic. No hidden chains. No lock-in.
+**Build production LLM apps with 2 dependencies.**
+Async-native RAG, Agents, and Graph workflows — no magic, no SaaS, no bloat.
+
+> *"LangChain for people who hate LangChain."*
+
+SynapseKit is the minimal, async-first Python framework for LLM applications. 30 providers · 46 tools · 33 loaders · 9 vector stores. Every abstraction is plain Python you can read, debug, and extend. No hidden chains. No global state. No lock-in.
 
 ---
 
@@ -60,14 +65,35 @@ No hidden chains.<br/>Every step is plain Python<br/>you can read and override.
 
 ---
 
+## SynapseKit vs LangChain vs LlamaIndex
+
+<div align="center">
+
+| | SynapseKit | LangChain | LlamaIndex |
+|---|---|---|---|
+| Hard dependencies | **2** | 50+ | 20+ |
+| Install size | **~5 MB** | ~200 MB+ | ~100 MB+ |
+| Async-native | **✅ Default** | ⚠️ Partial | ⚠️ Partial |
+| Cost tracking | **✅ Built-in** | ❌ LangSmith (SaaS) | ❌ No |
+| Evaluation | **✅ CLI + GitHub Action** | ❌ LangSmith (SaaS) | ✅ Built-in |
+| Graph workflows | **✅ Built-in** | ✅ LangGraph (separate pkg) | ❌ No |
+| LLM providers | **30** | 38+ | 20+ |
+| Stack traces | **Your code** | Framework internals | Framework internals |
+
+</div>
+
+LangChain has more raw integrations and more tutorials. That's not what SynapseKit is optimizing for. SynapseKit is optimizing for the engineer who needs to ship, debug, and maintain an LLM feature in production — where readable code, predictable async behavior, and no surprise SaaS bills actually matter.
+
+---
+
 ## Who is it for?
 
 SynapseKit is for Python developers who want to ship LLM features without fighting their framework.
 
-- **Backend engineers** adding AI features to existing Python services
-- **ML engineers** building RAG or agent pipelines who need full control over retrieval, prompting, and tool use
-- **Researchers and hackers** who want a clean, readable codebase they can understand and extend
-- **Teams** who need something they can actually debug and maintain in production
+- **Burned LangChain users** — hit a wall with debugging, dependency hell, or version churn and want full control back
+- **Async backend engineers** — building FastAPI services where LangChain's sync-first model feels bolted on
+- **Cost-conscious teams** — startups and teams who don't want a LangSmith subscription for basic observability
+- **ML engineers** — building RAG or agent pipelines who need full control over retrieval, prompting, and tool use
 
 ---
 
