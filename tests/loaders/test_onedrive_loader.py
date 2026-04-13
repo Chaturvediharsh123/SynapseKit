@@ -79,8 +79,9 @@ class TestOneDriveLoader:
                 return b"hello world"
             return b"\x89PNG\x00\x01"
 
-        with patch.object(loader, "_graph_get_json", side_effect=mock_get_json), patch.object(
-            loader, "_graph_get_bytes", side_effect=mock_get_bytes
+        with (
+            patch.object(loader, "_graph_get_json", side_effect=mock_get_json),
+            patch.object(loader, "_graph_get_bytes", side_effect=mock_get_bytes),
         ):
             docs = loader.load()
 
@@ -111,8 +112,9 @@ class TestOneDriveLoader:
             ]
         }
 
-        with patch.object(loader, "_graph_get_json", return_value=root_children), patch.object(
-            loader, "_graph_get_bytes", return_value=b"ok"
+        with (
+            patch.object(loader, "_graph_get_json", return_value=root_children),
+            patch.object(loader, "_graph_get_bytes", return_value=b"ok"),
         ):
             docs = loader.load()
 
@@ -133,9 +135,11 @@ class TestOneDriveLoader:
             ]
         }
 
-        with patch.object(loader, "_graph_get_json", return_value=root_children), patch.object(
-            loader, "_graph_get_bytes", return_value=b"%PDF-1.7 fake"
-        ), patch.object(loader, "_run_loader_for_extension") as run_loader:
+        with (
+            patch.object(loader, "_graph_get_json", return_value=root_children),
+            patch.object(loader, "_graph_get_bytes", return_value=b"%PDF-1.7 fake"),
+            patch.object(loader, "_run_loader_for_extension") as run_loader,
+        ):
             run_loader.return_value = [
                 Document(text="Extracted Page 1", metadata={}),
                 Document(text="Extracted Page 2", metadata={}),
@@ -178,8 +182,9 @@ class TestOneDriveLoader:
                 return b"root"
             return b"child"
 
-        with patch.object(loader, "_graph_get_json", side_effect=mock_get_json), patch.object(
-            loader, "_graph_get_bytes", side_effect=mock_get_bytes
+        with (
+            patch.object(loader, "_graph_get_json", side_effect=mock_get_json),
+            patch.object(loader, "_graph_get_bytes", side_effect=mock_get_bytes),
         ):
             docs = loader.load()
 
@@ -198,8 +203,9 @@ class TestOneDriveLoader:
             ]
         }
 
-        with patch.object(loader, "_graph_get_json", return_value=root_children), patch.object(
-            loader, "_graph_get_bytes", return_value=b"root"
+        with (
+            patch.object(loader, "_graph_get_json", return_value=root_children),
+            patch.object(loader, "_graph_get_bytes", return_value=b"root"),
         ):
             docs = loader.load()
 
@@ -217,8 +223,9 @@ class TestOneDriveLoader:
             ]
         }
 
-        with patch.object(loader, "_graph_get_json", return_value=root_children), patch.object(
-            loader, "_graph_get_bytes", return_value=b"x"
+        with (
+            patch.object(loader, "_graph_get_json", return_value=root_children),
+            patch.object(loader, "_graph_get_bytes", return_value=b"x"),
         ):
             docs = loader.load()
 
@@ -229,15 +236,18 @@ class TestOneDriveLoader:
     def test_aload_runs(self):
         loader = OneDriveLoader(access_token="token", drive_id="drive123")
 
-        with patch.object(
-            loader,
-            "_graph_get_json",
-            return_value={
-                "value": [
-                    {"id": "file-1", "name": "note.txt", "file": {"mimeType": "text/plain"}}
-                ]
-            },
-        ), patch.object(loader, "_graph_get_bytes", return_value=b"test"):
+        with (
+            patch.object(
+                loader,
+                "_graph_get_json",
+                return_value={
+                    "value": [
+                        {"id": "file-1", "name": "note.txt", "file": {"mimeType": "text/plain"}}
+                    ]
+                },
+            ),
+            patch.object(loader, "_graph_get_bytes", return_value=b"test"),
+        ):
             docs = asyncio.run(loader.aload())
 
         assert len(docs) == 1

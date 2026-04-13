@@ -72,7 +72,9 @@ class OneDriveLoader:
         try:
             import msgraph  # noqa: F401
         except ImportError:
-            raise ImportError("OneDrive dependencies required: pip install synapsekit[onedrive]") from None
+            raise ImportError(
+                "OneDrive dependencies required: pip install synapsekit[onedrive]"
+            ) from None
 
         loop = asyncio.get_running_loop()
         queue: list[str] = [self._children_url(self.folder_id)]
@@ -125,7 +127,9 @@ class OneDriveLoader:
                             )
                         )
                     except Exception as exc:
-                        logger.warning("OneDriveLoader: skipping item %r (%s) — %s", name, item_id, exc)
+                        logger.warning(
+                            "OneDriveLoader: skipping item %r (%s) — %s", name, item_id, exc
+                        )
 
                 page_url = page_data.get("@odata.nextLink")
 
