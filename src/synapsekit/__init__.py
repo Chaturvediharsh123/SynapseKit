@@ -165,6 +165,7 @@ from .loaders.github import GitHubLoader
 from .loaders.google_sheets import GoogleSheetsLoader
 from .loaders.html import HTMLLoader
 from .loaders.image import ImageLoader
+from .loaders.latex import LaTeXLoader
 from .loaders.jira import JiraLoader
 from .loaders.json_loader import JSONLoader
 from .loaders.markdown import MarkdownLoader
@@ -357,6 +358,7 @@ __all__ = [
     "GitLoader",
     "GoogleSheetsLoader",
     "JiraLoader",
+    "LaTeXLoader",
     "MarkdownLoader",
     "MongoDBLoader",
     "SQLLoader",
