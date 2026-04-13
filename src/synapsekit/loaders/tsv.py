@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import csv
 import os
+from typing import Any
 
 from .base import Document
 
@@ -33,7 +34,7 @@ class TSVLoader:
                     continue
                 if self._text_column:
                     text = str(row.get(self._text_column) or "")
-                    meta = {
+                    meta: dict[str, Any] = {
                         k: str(v).strip() if v is not None else ""
                         for k, v in row.items()
                         if k != self._text_column
