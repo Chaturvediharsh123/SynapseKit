@@ -176,6 +176,7 @@ from .loaders.s3 import S3Loader
 from .loaders.sql import SQLLoader
 from .loaders.teams import TeamsLoader
 from .loaders.text import StringLoader, TextLoader
+from .loaders.tsv import TSVLoader
 from .loaders.web import WebLoader
 from .loaders.wikipedia import WikipediaLoader
 from .mcp import MCPClient, MCPServer, MCPToolAdapter
@@ -347,6 +348,7 @@ __all__ = [
     "PDFLoader",
     "HTMLLoader",
     "CSVLoader",
+    "TSVLoader",
     "JSONLoader",
     "DirectoryLoader",
     "DropboxLoader",
