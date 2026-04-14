@@ -3,26 +3,27 @@ try:
 except ImportError:
     OpenAI = None
 
+
 class ImageGenerationTool:
     name = "generate_image"
     description = "Generate an image from a prompt"
 
     def __init__(self):
-     if OpenAI is None:
-        raise ImportError("OpenAI is not installed. Install it to use ImageGenerationTool.")
-     self.client = OpenAI()
+        self.client = OpenAI() if OpenAI else None
 
     async def run(self, prompt: str, size="1024x1024", quality="standard"):
+        if self.client is None:
+            return "OpenAI not installed"
+
         try:
             result = self.client.images.generate(
                 model="gpt-image-1",
                 prompt=prompt,
                 size=size,
-                quality=quality
+                quality=quality,
             )
             return result.data[0].url
         except Exception as e:
-
+            
             return str(e)
-
-
+         
