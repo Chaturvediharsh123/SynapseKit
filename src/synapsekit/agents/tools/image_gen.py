@@ -1,5 +1,6 @@
 from openai import OpenAI
 
+
 class ImageGenerationTool:
     name = "generate_image"
     description = "Generate an image from a prompt"

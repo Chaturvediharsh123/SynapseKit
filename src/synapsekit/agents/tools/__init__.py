@@ -18,6 +18,7 @@ from .graphql import GraphQLTool
 from .http_request import HTTPRequestTool
 from .human_input import HumanInputTool
 from .image_analysis import ImageAnalysisTool
+from .image_gen import ImageGenerationTool
 from .jira import JiraTool
 from .json_query import JSONQueryTool
 from .linear import LinearTool
@@ -46,7 +47,6 @@ from .web_search import WebSearchTool
 from .wikipedia import WikipediaTool
 from .wolfram import WolframAlphaTool
 from .youtube_search import YouTubeSearchTool
-from .image_gen import ImageGenerationTool
 
 __all__ = [
     "APIBuilderTool",
