@@ -20,5 +20,5 @@ class ImageGenerationTool:
         except Exception as e:
 
             return str(e)
-         
-         
+
+
