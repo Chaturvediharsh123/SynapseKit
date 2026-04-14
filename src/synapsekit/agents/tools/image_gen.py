@@ -9,16 +9,11 @@ class ImageGenerationTool:
     description = "Generate an image from a prompt"
 
     def __init__(self):
-        self.client = None
-        if OpenAI:
-            try:
-                self.client = OpenAI()
-            except Exception:
-                self.client = None
+        self.client = OpenAI() if OpenAI else None
 
     async def run(self, prompt: str, size="1024x1024", quality="standard"):
         if self.client is None:
-            return "OpenAI not available"
+            return "OpenAI not installed"
 
         try:
             result = self.client.images.generate(
