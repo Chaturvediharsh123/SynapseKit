@@ -46,6 +46,7 @@ from .web_search import WebSearchTool
 from .wikipedia import WikipediaTool
 from .wolfram import WolframAlphaTool
 from .youtube_search import YouTubeSearchTool
+from .image_gen import ImageGenerationTool
 
 __all__ = [
     "APIBuilderTool",
@@ -96,4 +97,5 @@ __all__ = [
     "WolframAlphaTool",
     "WikipediaTool",
     "YouTubeSearchTool",
+    "ImageGenerationTool",
 ]
